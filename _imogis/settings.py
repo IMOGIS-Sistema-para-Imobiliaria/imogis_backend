@@ -134,16 +134,24 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": """
+        django.contrib.auth.password_validation.UserAttributeSimilarityValidator
+        """,
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": """
+        django.contrib.auth.password_validation.MinimumLengthValidator
+        """,
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": """
+        django.contrib.auth.password_validation.CommonPasswordValidator
+        """,
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": """
+        django.contrib.auth.password_validation.NumericPasswordValidator
+        """,
     },
 ]
 
@@ -177,7 +185,9 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
     ),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": """
+    rest_framework.pagination.PageNumberPagination
+    """,
     "PAGE_SIZE": 2,
 }
 
@@ -187,8 +197,14 @@ SIMPLE_JWT = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "IMOGIS",
-    "DESCRIPTION": "Imobiliaria com Gestão Integrada de Sistemas.",
+    "TITLE": "IMOGIS - Imobiliaria com Gestão Integrada de Sistemas.",
+    "DESCRIPTION": """
+    O IMOGIS é um sistema desenvolvido em Python Django para gerenciamento de
+     propriedades imobiliárias. Este projeto visa facilitar a gestão tanto dos
+     proprietários dos imóveis quanto dos clientes que desejam alugar ou
+     comprar propriedades. A administração dessas informações ficará a cargo do
+     corretor de imóveis.
+    """,
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
