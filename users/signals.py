@@ -78,7 +78,7 @@ def password_reset_token_created(
     </p>
 
     <figure style="display: flex; margin: 0; padding: 0; width: min-content;">
-        <img src="{image_url}" alt="Cartão de Visita IMOGIS" style="width: 300px; display: block; margin: 20px auto;" />
+        <img src="{image_url}" alt="Cartão de Visita IMOGIS" style="width: 300px; display: block; margin-top: 20px;" />
     </figure>
     """
 
