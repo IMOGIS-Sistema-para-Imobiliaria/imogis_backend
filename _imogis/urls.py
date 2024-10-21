@@ -26,6 +26,7 @@ from drf_spectacular.views import (
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("users.urls")),
+    path("api/", include("owner.urls")),
     # ... outras rotas ...
     path(
         "api/schema/",

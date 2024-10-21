@@ -38,6 +38,7 @@ class OwnerSerializer(serializers.ModelSerializer):
                     )
                 ]
             },
+            "last_updated_by": {"read_only": True},
         }
 
     def get_user_fullname(self, obj):
@@ -46,8 +47,14 @@ class OwnerSerializer(serializers.ModelSerializer):
         )
 
     def update(self, instance: Owner, validated_data: dict):
+        instance.last_updated_by = (
+            f"{validated_data.get('user', instance.user).first_name} "
+            f"{validated_data.get('user', instance.user).last_name}"
+        )
+
         for key, value in validated_data.items():
-            setattr(instance, key, value)
+            if key != "user":
+                setattr(instance, key, value)
 
         instance.save()
         return instance
