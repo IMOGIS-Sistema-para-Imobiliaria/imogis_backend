@@ -2,11 +2,25 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path("users/", views.ReadCreateUserView.as_view()),
-    path("users/<uuid:pk>/", views.RetrieveUpdateDeleteUserView.as_view()),
-    path("login/", views.LastTokenObtainPairView.as_view()),
     path(
-        "users/password_reset_code/", views.ResetPasswordConfirmView.as_view()
+        "users/",
+        views.ReadCreateUserView.as_view(),
+        name="user-list",
+    ),
+    path(
+        "users/<uuid:pk>/",
+        views.RetrieveUpdateDeleteUserView.as_view(),
+        name="user-detail",
+    ),
+    path(
+        "login/",
+        views.LastTokenObtainPairView.as_view(),
+        name="login",
+    ),
+    path(
+        "users/password_reset_code/",
+        views.ResetPasswordConfirmView.as_view(),
+        name="password-reset-code",
     ),
     path(
         "users/password_reset/",

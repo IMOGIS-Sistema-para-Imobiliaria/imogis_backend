@@ -43,7 +43,9 @@ def password_reset_token_created(
 
     <p style="font-weight: 600; font-size: 0.8rem;">
         Recebemos uma solicitação para 
-        <strong style="color: #1E3A8A; font-weight: bold;">redefinir sua senha</strong>. 
+        <strong style="color: #1E3A8A; font-weight: bold;">
+        redefinir sua senha
+        </strong>.
         Utilize o código abaixo para completar o processo:
     </p>
 

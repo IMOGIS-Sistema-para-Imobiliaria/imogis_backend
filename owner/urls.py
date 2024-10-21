@@ -3,7 +3,11 @@ from . import views
 
 
 urlpatterns = [
-    path("owner/", views.ReadCreateOwnerView.as_view()),
+    path(
+        "owner/",
+        views.ReadCreateOwnerView.as_view(),
+        name="owner-list",
+    ),
     path(
         "owner/<uuid:pk>/",
         views.RetrieveUpdateOwnerView.as_view(),

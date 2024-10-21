@@ -53,16 +53,16 @@ class ResetPasswordConfirmView(APIView):
                 user.save()
 
                 return Response(
-                    {"message": "Senha redefinida com sucesso."},
+                    {"message": "Password reset successfully."},
                     status=status.HTTP_200_OK,
                 )
             else:
                 return Response(
-                    {"message": "Código inválido ou expirado."},
+                    {"message": "Invalid or expired code."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         except User.DoesNotExist:
             return Response(
-                {"message": "Usuário não encontrado."},
+                {"message": "User not found."},
                 status=status.HTTP_404_NOT_FOUND,
             )
