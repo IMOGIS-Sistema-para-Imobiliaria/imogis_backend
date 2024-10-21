@@ -51,6 +51,7 @@ class ResetPasswordConfirmView(APIView):
                 user.reset_code = None
                 user.reset_code_expires_at = None
                 user.save()
+
                 return Response(
                     {"message": "Senha redefinida com sucesso."},
                     status=status.HTTP_200_OK,
