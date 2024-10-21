@@ -13,8 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "password",
             "email",
-            "reset_code",
-            "reset_code_expires_at",
             "is_superuser",
             "is_active",
             "last_login",

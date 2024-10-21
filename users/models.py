@@ -3,6 +3,8 @@ from django.db import models
 from uuid import uuid4
 from datetime import timedelta
 from django.utils import timezone
+import random
+import string
 
 
 class User(AbstractUser):
@@ -22,12 +24,10 @@ class User(AbstractUser):
     reset_code_expires_at = models.DateTimeField(null=True, blank=True)
 
     def generate_reset_code(self):
-        import random
-        import string
-
         code = "".join(
             random.choices(string.ascii_uppercase + string.digits, k=6)
         )
+
         self.reset_code = code
         self.reset_code_expires_at = timezone.now() + timedelta(minutes=30)
         self.save()
