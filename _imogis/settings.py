@@ -209,13 +209,9 @@ SIMPLE_JWT = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "IMOGIS - Imobiliaria com Gestão Integrada de Sistemas.",
-    "DESCRIPTION": """
-    O IMOGIS é um sistema desenvolvido em Python Django para gerenciamento de
-     propriedades imobiliárias. Este projeto visa facilitar a gestão tanto dos
-     proprietários dos imóveis quanto dos clientes que desejam alugar ou
-     comprar propriedades. A administração dessas informações ficará a cargo do
-     corretor de imóveis.
-    """,
+    "DESCRIPTION": "O IMOGIS é um sistema desenvolvido em Python Django para gerenciamento de propriedades imobiliárias. Este projeto visa facilitar a gestão tanto dos proprietários dos imóveis quanto dos clientes que desejam alugar ou comprar propriedades. A administração dessas informações ficará a cargo do corretor de imóveis.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "SCHEMA_PATH_PREFIX": "/api/",
+    "COMPONENT_SPLIT_REQUEST": True,
 }
