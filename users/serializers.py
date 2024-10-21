@@ -13,7 +13,8 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "password",
             "email",
-            "reset_password",
+            "reset_code",
+            "reset_code_expires_at",
             "is_superuser",
             "is_active",
             "last_login",
@@ -41,27 +42,25 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data: dict):
-        if validated_data["is_superuser"]:
-            return User.objects.create_superuser(**validated_data)
-        return User.objects.create_user(**validated_data)
+        password = validated_data.pop("password", None)
+
+        if validated_data.get("is_superuser"):
+            user = User.objects.create_superuser(**validated_data)
+        else:
+            user = User.objects.create_user(**validated_data)
+
+        if password:
+            user.set_password(password)
+            user.save()
+
+        return user
 
     def update(self, instance: User, validated_data: dict):
-        # User making the request...
-        req_user = self.context["request"].user
+        password = validated_data.pop("password", None)
+        instance = super().update(instance, validated_data)
 
-        is_resettable = instance.reset_password
-        is_admin = req_user.is_superuser
+        if password:
+            instance.set_password(password)
+            instance.save()
 
-        can_update_password = is_admin or is_resettable
-
-        for key, value in validated_data.items():
-            if key == "password" and can_update_password:
-                instance.set_password(value)
-                instance.reset_password = False
-            elif key == "password" and not can_update_password:
-                continue
-            else:
-                setattr(instance, key, value)
-
-        instance.save()
         return instance
