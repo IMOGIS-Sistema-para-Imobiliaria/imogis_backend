@@ -4,17 +4,20 @@ from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    user_fullname = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = User
         fields = [
             "id",
             "username",
+            "email",
             "first_name",
             "last_name",
-            "password",
-            "email",
+            "user_fullname",
             "is_superuser",
             "is_active",
+            "password",
             "last_login",
             "date_joined",
         ]
@@ -33,11 +36,18 @@ class UserSerializer(serializers.ModelSerializer):
                 "validators": [
                     UniqueValidator(
                         queryset=User.objects.all(),
-                        message="user with this email already exists.",
+                        message="User with this email already exists.",
                     )
                 ]
             },
         }
+
+    def get_user_fullname(self, obj):
+        return (
+            f"{obj.first_name} {obj.last_name}"
+            if obj.first_name and obj.last_name
+            else None
+        )
 
     def create(self, validated_data: dict):
         password = validated_data.pop("password", None)

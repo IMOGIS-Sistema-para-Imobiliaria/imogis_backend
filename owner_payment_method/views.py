@@ -2,13 +2,11 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from owner.models import Owner
 from owner_payment_method.models import OwnerPaymentMethod
 from owner_payment_method.serializers import OwnerPaymentMethodSerializer
-from rest_framework.exceptions import NotFound
+from rest_framework.views import Response, status
 
 
 class ReadCreateOwnerPaymentMethodView(ListCreateAPIView):
@@ -19,13 +17,23 @@ class ReadCreateOwnerPaymentMethodView(ListCreateAPIView):
     serializer_class = OwnerPaymentMethodSerializer
 
     def perform_create(self, serializer):
-        owner_id_url = self.kwargs.get("owner_id")
-        try:
-            get_owner_id = Owner.objects.get(id=owner_id_url)
-        except Owner.DoesNotExist:
-            raise NotFound("Owner not found.")
+        owner_id = self.kwargs["owner_id"]
 
-        serializer.save(owner_id=get_owner_id)
+        existing_payment_method = OwnerPaymentMethod.objects.filter(
+            owner_id=owner_id
+        )
+
+        if existing_payment_method.exists():
+            return Response(
+                existing_payment_method.first(),
+                status=status.HTTP_200_OK,
+            )
+
+        serializer.save(owner_id=owner_id)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class RetrieveUpdateDestroyOwnerPaymentMethodView(

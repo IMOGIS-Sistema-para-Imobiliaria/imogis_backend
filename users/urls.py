@@ -18,15 +18,15 @@ urlpatterns = [
         name="login",
     ),
     path(
-        "users/password_reset_code/",
-        views.ResetPasswordConfirmView.as_view(),
-        name="password-reset-code",
-    ),
-    path(
         "users/password_reset/",
         include(
             "django_rest_passwordreset.urls",
             namespace="password_reset",
         ),
+    ),
+    path(
+        "users/password_reset/code/",
+        views.ResetPasswordConfirmView.as_view(),
+        name="password-reset-code",
     ),
 ]

@@ -1,17 +1,14 @@
 from django.db import models
 import uuid
 
+from owner.models import Owner
+
 
 class OwnerPaymentMethod(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    sales_bonus = models.IntegerField(null=False)
-    profit_transfer = models.IntegerField(default=0)
-    owner_id = models.OneToOneField(
-        "owner.Owner",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
+    sales_bonus = models.DecimalField(max_digits=10, decimal_places=2)
+    profit_transfer = models.DecimalField(max_digits=10, decimal_places=0)
+    owner = models.OneToOneField(Owner, on_delete=models.CASCADE)
 
     def __repr__(self) -> str:
-        return f"Payment Method {self.id} for Owner {self.owner}"
+        return f"Payment Method {self.id} for Owner {self.owner.id}"
