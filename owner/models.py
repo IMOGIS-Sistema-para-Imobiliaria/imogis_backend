@@ -44,7 +44,6 @@ class Owner(models.Model):
     telephone = models.CharField(max_length=15, null=False)
     address = models.CharField(max_length=255, null=False)
     occupation = models.CharField(max_length=100, blank=True, null=True)
-    last_updated_by = models.CharField(max_length=30, null=True, default=None)
     type_of_sale = models.CharField(
         max_length=50,
         choices=ENUM_TYPE_OF_SALE.choices,

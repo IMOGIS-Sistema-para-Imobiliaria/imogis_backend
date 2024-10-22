@@ -23,6 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("users.urls")),
     path("api/", include("owner.urls")),
+    path("api/", include("owner_payment_method.urls")),
     # ... outras rotas ...
     path(
         "api/schema/",
