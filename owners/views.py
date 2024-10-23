@@ -3,13 +3,12 @@ from rest_framework.generics import (
     RetrieveUpdateAPIView,
     DestroyAPIView,
 )
-
 from owners.models import Owner
 from owners.permissions import IsSuperUserOrUserOwner
 from owners.serializers import OwnerSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import Response
+from rest_framework.views import Response, Request
 
 
 class ReadCreateOwnerView(ListCreateAPIView):
@@ -19,7 +18,7 @@ class ReadCreateOwnerView(ListCreateAPIView):
     queryset = Owner.objects.all()
     serializer_class = OwnerSerializer
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: OwnerSerializer) -> None:
         serializer.save(user=self.request.user)
 
 
@@ -30,7 +29,7 @@ class RetrieveUpdateOwnerView(RetrieveUpdateAPIView):
     queryset = Owner.objects.all()
     serializer_class = OwnerSerializer
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request: Request, *args: list, **kwargs: dict):
         partial = request.method == "PATCH"
         instance = self.get_object()
         serializer = self.get_serializer(

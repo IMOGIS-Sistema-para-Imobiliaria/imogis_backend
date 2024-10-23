@@ -1,11 +1,9 @@
 from rest_framework import serializers
-
 from owner_bank_details.models import OwnerBankDetails
 from owner_bank_details.serializers import OwnerBankDetailsSerializer
 from owner_pix_details.models import OwnerPixDetails
 from owner_pix_details.serializer import OwnerPixDetailsSerializer
 from .models import OwnerPaymentMethod
-from rest_framework.views import Response, status
 
 
 class OwnerPaymentMethodSerializer(serializers.ModelSerializer):
@@ -26,20 +24,13 @@ class OwnerPaymentMethodSerializer(serializers.ModelSerializer):
             "owner": {"read_only": True},
         }
 
-    def create(self, validated_data):
-        bank_details_data = validated_data.pop("bank_details")
-        pix_details_data = validated_data.pop("pix_details")
+    def create(self, validated_data: dict) -> OwnerPaymentMethod:
+        bank_details_data: list = validated_data.pop("bank_details", [])
+        pix_details_data: list = validated_data.pop("pix_details", [])
 
-        owner_payment_method = (
-            self.instance
-            or OwnerPaymentMethod.objects.create(**validated_data)
+        owner_payment_method = OwnerPaymentMethod.objects.create(
+            **validated_data
         )
-
-        if not owner_payment_method:
-            return Response(
-                {"message": "Payment method already exists."},
-                status=status.HTTP_200_OK,
-            )
 
         for bank_detail in bank_details_data:
             OwnerBankDetails.objects.create(
@@ -53,13 +44,9 @@ class OwnerPaymentMethodSerializer(serializers.ModelSerializer):
 
         return owner_payment_method
 
-    def update(self, instance: OwnerPaymentMethod, validated_data: dict):
-        for key, value in validated_data.items():
-            if key not in ["bank_details", "pix_details"]:
-                setattr(instance, key, value)
-        instance.save()
-
-        bank_details_data = validated_data.pop("bank_details", [])
+    def update_bank_details(
+        self, instance: OwnerPaymentMethod, bank_details_data: list
+    ):
         existing_bank_details_ids = {
             bd.id for bd in instance.bank_details.all()
         }
@@ -77,7 +64,6 @@ class OwnerPaymentMethodSerializer(serializers.ModelSerializer):
                     setattr(existing_bank_detail, key, value)
                 existing_bank_detail.save()
                 existing_bank_details_ids.discard(existing_bank_detail.id)
-
             else:
                 OwnerBankDetails.objects.create(
                     owner_payment_method=instance, **bank_detail
@@ -86,7 +72,9 @@ class OwnerPaymentMethodSerializer(serializers.ModelSerializer):
         for bd_id in existing_bank_details_ids:
             OwnerBankDetails.objects.filter(id=bd_id).delete()
 
-        pix_details_data = validated_data.pop("pix_details", [])
+    def update_pix_details(
+        self, instance: OwnerPaymentMethod, pix_details_data: list
+    ):
         existing_pix_details_ids = {pd.id for pd in instance.pix_details.all()}
 
         for pix_detail in pix_details_data:
@@ -107,5 +95,20 @@ class OwnerPaymentMethodSerializer(serializers.ModelSerializer):
 
         for pd_id in existing_pix_details_ids:
             OwnerPixDetails.objects.filter(id=pd_id).delete()
+
+    def update(
+        self, instance: OwnerPaymentMethod, validated_data: dict
+    ) -> OwnerPaymentMethod:
+        for key, value in validated_data.items():
+            if key not in ["bank_details", "pix_details"]:
+                setattr(instance, key, value)
+        instance.save()
+
+        self.update_bank_details(
+            instance, validated_data.pop("bank_details", [])
+        )
+        self.update_pix_details(
+            instance, validated_data.pop("pix_details", [])
+        )
 
         return instance
