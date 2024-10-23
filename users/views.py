@@ -8,8 +8,7 @@ from users.serializers import UserSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils import timezone
-from rest_framework.views import Response, status
-from rest_framework.views import APIView
+from rest_framework.views import status, APIView, Request, Response
 
 
 class ReadCreateUserView(ListCreateAPIView):
@@ -26,7 +25,7 @@ class RetrieveUpdateDeleteUserView(RetrieveUpdateDestroyAPIView):
 
 
 class LastTokenObtainPairView(TokenObtainPairView):
-    def post(self, request, *args, **kwargs):
+    def post(self, request: Request, *args: list, **kwargs: dict):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -38,7 +37,7 @@ class LastTokenObtainPairView(TokenObtainPairView):
 
 
 class ResetPasswordConfirmView(APIView):
-    def post(self, request, *args, **kwargs):
+    def post(self, request: Request, *args: list, **kwargs: dict):
         reset_code = request.data.get("reset_code")
         new_password = request.data.get("new_password")
         email = request.data.get("email")
