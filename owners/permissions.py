@@ -1,7 +1,6 @@
 from rest_framework import permissions
 from rest_framework.views import Request, View
-
-from owner.models import Owner
+from owners.models import Owner
 
 
 class IsSuperUserOrUserOwner(permissions.BasePermission):

@@ -4,17 +4,17 @@ from . import views
 
 urlpatterns = [
     path(
-        "owner/",
+        "owners/",
         views.ReadCreateOwnerView.as_view(),
         name="owner-list",
     ),
     path(
-        "owner/<uuid:pk>/",
+        "owners/<uuid:pk>/",
         views.RetrieveUpdateOwnerView.as_view(),
         name="owner-detail",
     ),
     path(
-        "owner/<uuid:pk>/delete/",
+        "owners/<uuid:pk>/delete/",
         views.DeleteOwnerView.as_view(),
         name="owner-delete",
     ),

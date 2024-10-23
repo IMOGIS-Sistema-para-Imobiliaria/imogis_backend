@@ -4,31 +4,31 @@ from rest_framework.generics import (
     DestroyAPIView,
 )
 
-from owner.models import Owner
-from owner.permissions import IsSuperUserOrUserOwner
-from owner.serializers import OwnerSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from clients.models import Client
+from clients.permissions import IsSuperUserOrUserClient
+from clients.serializers import ClientSerializer
 from rest_framework.views import Response
 
 
-class ReadCreateOwnerView(ListCreateAPIView):
+class ReadCreateClientView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    queryset = Owner.objects.all()
-    serializer_class = OwnerSerializer
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 
-class RetrieveUpdateOwnerView(RetrieveUpdateAPIView):
+class RetrieveUpdateClientView(RetrieveUpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    queryset = Owner.objects.all()
-    serializer_class = OwnerSerializer
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
 
     def update(self, request, *args, **kwargs):
         partial = request.method == "PATCH"
@@ -43,9 +43,9 @@ class RetrieveUpdateOwnerView(RetrieveUpdateAPIView):
         return Response(serializer.data)
 
 
-class DeleteOwnerView(DestroyAPIView):
+class DeleteClientView(DestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsSuperUserOrUserOwner]
+    permission_classes = [IsSuperUserOrUserClient]
 
-    queryset = Owner.objects.all()
-    serializer_class = OwnerSerializer
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
