@@ -9,8 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from clients.models import Client
 from clients.permissions import IsSuperUserOrUserClient
 from clients.serializers import ClientSerializer
-
-# from rest_framework.views import Response
+from rest_framework.views import Response
 
 
 class ReadCreateClientView(ListCreateAPIView):
@@ -31,17 +30,17 @@ class RetrieveUpdateClientView(RetrieveUpdateAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
-    # def update(self, request, *args, **kwargs):
-    #     partial = request.method == "PATCH"
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(
-    #         instance, data=request.data, partial=partial
-    #     )
+    def update(self, request, *args, **kwargs):
+        partial = request.method == "PATCH"
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial
+        )
 
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save(user=request.user)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
 
-    #     return Response(serializer.data)
+        return Response(serializer.data)
 
 
 class DeleteClientView(DestroyAPIView):
