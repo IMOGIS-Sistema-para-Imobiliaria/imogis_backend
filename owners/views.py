@@ -4,9 +4,9 @@ from rest_framework.generics import (
     DestroyAPIView,
 )
 
-from owner.models import Owner
-from owner.permissions import IsSuperUserOrUserOwner
-from owner.serializers import OwnerSerializer
+from owners.models import Owner
+from owners.permissions import IsSuperUserOrUserOwner
+from owners.serializers import OwnerSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response

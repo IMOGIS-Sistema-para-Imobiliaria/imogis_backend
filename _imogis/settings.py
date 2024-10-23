@@ -54,7 +54,7 @@ THIRD_PARTY_APPS = [
 
 MY_APPS = [
     "users",
-    "owner",
+    "owners",
     "owner_payment_method",
     "owner_bank_details",
     "owner_pix_details",

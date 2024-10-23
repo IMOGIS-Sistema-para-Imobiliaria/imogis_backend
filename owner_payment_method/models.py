@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 
-from owner.models import Owner
+from owners.models import Owner
 
 
 class OwnerPaymentMethod(models.Model):
