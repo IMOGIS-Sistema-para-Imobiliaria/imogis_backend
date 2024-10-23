@@ -24,7 +24,8 @@ urlpatterns = [
     path("api/", include("users.urls")),
     path("api/", include("owners.urls")),
     path("api/", include("owner_payment_method.urls")),
-    # ... outras rotas ...
+    path("api/", include("clients.urls")),
+    # ... other routes ...
     path(
         "api/schema/",
         SpectacularAPIView.as_view(),

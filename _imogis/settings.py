@@ -58,6 +58,7 @@ MY_APPS = [
     "owner_payment_method",
     "owner_bank_details",
     "owner_pix_details",
+    "clients",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
