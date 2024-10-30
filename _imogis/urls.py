@@ -29,6 +29,7 @@ urlpatterns = [
     path("api/", include("contracts.urls")),
     path("api/", include("service_orders.urls")),
     path("api/", include("property_invoices.urls")),
+    path("api/", include("real_estate.urls")),
     # ... other routes ...
     path(
         "api/schema/",
