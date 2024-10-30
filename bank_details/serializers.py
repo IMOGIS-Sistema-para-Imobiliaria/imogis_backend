@@ -1,14 +1,15 @@
 from rest_framework import serializers
-from bonus_and_transfer.models import BonusAndTransfer
+from bank_details.models import BankDetails
 
 
-class BonusAndTransferSerializer(serializers.ModelSerializer):
+class BankDetailsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BonusAndTransfer
-
+        model = BankDetails
         fields = [
-            "sales_bonus",
-            "profit_transfer",
+            "bank",
+            "account",
+            "agency",
+            "account_type",
             "owner",
             "client",
         ]
