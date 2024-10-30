@@ -64,6 +64,7 @@ MY_APPS = [
     "client_pix_details",
     "bonus_and_transfer",
     "bank_details",
+    "pix_details",
     "contracts",
     "service_orders",
     "property_invoices",

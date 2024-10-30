@@ -28,6 +28,7 @@ urlpatterns = [
     path("api/", include("client_payment_method.urls")),
     path("api/", include("bonus_and_transfer.urls")),
     path("api/", include("bank_details.urls")),
+    path("api/", include("pix_details.urls")),
     path("api/", include("contracts.urls")),
     path("api/", include("service_orders.urls")),
     path("api/", include("property_invoices.urls")),
