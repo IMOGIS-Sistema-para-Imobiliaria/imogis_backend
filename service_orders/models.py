@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 
 from owners.models import Owner
+from real_estate.models import RealEstate
 
 
 class ENUM_Service_Category(models.TextChoices):
@@ -46,7 +47,16 @@ class ServiceOrder(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="service_orders",
+        default=None,
+        related_name="service_order_owner",
+    )
+    real_estate = models.ForeignKey(
+        RealEstate,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="service_order_real_estate",
     )
 
     def __repr__(self):
