@@ -1,7 +1,6 @@
 from django.test import TestCase
 from clients.models import Client
 from django.db import IntegrityError, models
-
 from clients.serializers import ClientSerializer
 from owners.models import Owner
 from users.models import User
