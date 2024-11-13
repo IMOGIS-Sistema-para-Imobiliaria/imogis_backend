@@ -10,7 +10,7 @@ class Client(models.Model):
         ordering = ["fullname"]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    fullname = models.CharField(max_length=100)
+    fullname = models.CharField(max_length=100, null=False)
     cpf = models.CharField(
         max_length=11,
         unique=True,
@@ -34,8 +34,8 @@ class Client(models.Model):
         ],
     )
 
-    telephone = models.CharField(max_length=15)
-    address = models.CharField(max_length=255)
+    telephone = models.CharField(max_length=15, null=False)
+    address = models.CharField(max_length=255, null=False)
     occupation = models.CharField(max_length=100, blank=True, null=True)
     user = models.ForeignKey(
         User,
