@@ -6,6 +6,7 @@ from contracts.models import (
     ENUM_Status_Of_Contract,
     ENUM_Type_Of_Contract,
 )
+from contracts.serializers import ContractSerializer
 from owners.models import Owner
 from real_estate.models import RealEstate
 
@@ -146,7 +147,7 @@ class TestClientModel(TestCase):
 
 class TestContract(TestCase):
     def setUp(self) -> None:
-        self.client_create = Contract.objects.create(
+        self.contract_create = Contract.objects.create(
             contract_belongs_to="Cliente XYZ",
             type_of_contract="Aluguel",
             status="Pendente",
@@ -157,7 +158,7 @@ class TestContract(TestCase):
             due_date=5,
         )
 
-    def test_owner_instance_attrs(self):
+    def test_contract_instance_attrs(self):
         contract = ContractClass(
             "Cliente XYZ",
             "Aluguel",
@@ -176,3 +177,17 @@ class TestContract(TestCase):
         self.assertEqual(type(contract.end_of_contract), str)
         self.assertEqual(type(contract.rental_value), int)
         self.assertEqual(type(contract.due_date), int)
+
+    def test_contract_serializer(self):
+        contract = self.contract_create
+        serializer = ContractSerializer(contract)
+        data = serializer.data
+
+        self.assertEqual(data["contract_belongs_to"], "Cliente XYZ")
+        self.assertEqual(data["type_of_contract"], "Aluguel")
+        self.assertEqual(data["status"], "Pendente")
+        self.assertEqual(data["contract_duration"], 12)
+        self.assertEqual(data["start_of_contract"], "2024-01-01T00:00:00Z")
+        self.assertEqual(data["end_of_contract"], "2025-01-01T00:00:00Z")
+        self.assertEqual(data["rental_value"], 1500)
+        self.assertEqual(data["due_date"], 5)
