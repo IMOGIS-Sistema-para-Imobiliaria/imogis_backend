@@ -19,4 +19,12 @@ class PropertyInvoiceSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             "id": {"read_only": True},
+            "client": {
+                "required": False,
+                "allow_null": True,
+            },
+            "real_estate": {
+                "required": False,
+                "allow_null": True,
+            },
         }

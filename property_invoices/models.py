@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from clients.models import Client
+from real_estate.models import RealEstate
 
 
 class ENUM_Months_Of_Year(models.TextChoices):
@@ -39,9 +40,21 @@ class PropertyInvoice(models.Model):
     )
     date_it_was_paid = models.DateTimeField(null=True, blank=True)
     observations = models.CharField(max_length=255, null=True, blank=True)
-    real_estate = models.UUIDField(null=True, blank=True)
     client = models.ForeignKey(
-        Client, on_delete=models.SET_NULL, null=True, blank=True
+        Client,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="property_invoice_client",
+    )
+    real_estate = models.ForeignKey(
+        RealEstate,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="property_invoice_real_estate",
     )
 
     def __repr__(self):

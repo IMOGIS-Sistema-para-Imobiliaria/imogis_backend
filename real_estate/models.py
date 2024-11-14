@@ -1,7 +1,6 @@
 import uuid
 from django.db import models
 from clients.models import Client
-from contracts.models import Contract
 from owners.models import Owner
 
 
@@ -25,26 +24,20 @@ class RealEstate(models.Model):
     rental_value = models.PositiveIntegerField(null=False)
     tenant_present = models.BooleanField(null=False)
     readjustment_date = models.DateTimeField(null=True, blank=True)
-    contract = models.ForeignKey(
-        Contract,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        default=None,
-    )
-    client = models.ForeignKey(
+    client = models.OneToOneField(
         Client,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         default=None,
+        related_name="real_estate_client",
     )
     owner = models.ForeignKey(
         Owner,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="real_estate",
+        related_name="real_estate_owner",
     )
 
     def __repr__(self):
