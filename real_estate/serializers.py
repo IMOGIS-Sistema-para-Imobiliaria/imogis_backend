@@ -5,6 +5,7 @@ from .models import RealEstate
 class RealEstateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RealEstate
+        depth = 1
         fields = [
             "id",
             "type_of_housing",
@@ -15,9 +16,17 @@ class RealEstateSerializer(serializers.ModelSerializer):
             "rental_value",
             "tenant_present",
             "readjustment_date",
-            "contract",
             "client",
+            "owner",
         ]
         extra_kwargs = {
             "id": {"read_only": True},
+            "client": {
+                "required": False,
+                "allow_null": True,
+            },
+            "owner": {
+                "required": False,
+                "allow_null": True,
+            },
         }

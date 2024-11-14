@@ -54,7 +54,7 @@ class Owner(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="owners",
+        related_name="owner_user",
     )
 
     def __repr__(self) -> str:

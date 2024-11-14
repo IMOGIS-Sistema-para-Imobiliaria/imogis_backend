@@ -1,7 +1,7 @@
 from django.db import models
-
 from clients.models import Client
 from owners.models import Owner
+import uuid
 
 
 class ENUM_PIX_TYPE_CLIENT(models.TextChoices):
@@ -14,8 +14,10 @@ class ENUM_PIX_TYPE_CLIENT(models.TextChoices):
 
 
 class PixDetails(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     pix_key = models.CharField(
         max_length=36,
+        unique=True,
         null=True,
         blank=True,
         default=None,
@@ -26,10 +28,20 @@ class PixDetails(models.Model):
         default=ENUM_PIX_TYPE_CLIENT.NAO_POSSUI_PIX,
     )
     owner = models.ForeignKey(
-        Owner, on_delete=models.SET_NULL, null=True, blank=True, default=None
+        Owner,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="pix_details_owner",
     )
     client = models.ForeignKey(
-        Client, on_delete=models.SET_NULL, null=True, blank=True, default=None
+        Client,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="pix_details_client",
     )
 
     def __repr__(self) -> str:

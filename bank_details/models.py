@@ -1,6 +1,7 @@
 from django.db import models
 from clients.models import Client
 from owners.models import Owner
+import uuid
 
 
 class ENUM_BANKS(models.TextChoices):
@@ -51,18 +52,32 @@ class ENUM_ACCOUNT_TYPE(models.TextChoices):
 
 
 class BankDetails(models.Model):
+    class Meta:
+        ordering = ["bank"]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     bank = models.CharField(max_length=25, choices=ENUM_BANKS.choices)
-    account = models.CharField(max_length=20)
+    account = models.CharField(max_length=20, unique=True)
     agency = models.CharField(max_length=6)
     account_type = models.CharField(
         max_length=255,
         choices=ENUM_ACCOUNT_TYPE.choices,
     )
     owner = models.ForeignKey(
-        Owner, on_delete=models.SET_NULL, null=True, blank=True, default=None
+        Owner,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="bank_details_owner",
     )
     client = models.ForeignKey(
-        Client, on_delete=models.SET_NULL, null=True, blank=True, default=None
+        Client,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="bank_details_client",
     )
 
     def __repr__(self) -> str:

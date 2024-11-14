@@ -1,6 +1,10 @@
 import uuid
 from django.db import models
 
+from clients.models import Client
+from owners.models import Owner
+from real_estate.models import RealEstate
+
 
 class ENUM_Type_Of_Contract(models.TextChoices):
     ALUGUEL = "Aluguel", ("Aluguel")
@@ -18,9 +22,15 @@ class Contract(models.Model):
     class Meta:
         ordering = ["contract_belongs_to"]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     contract_belongs_to = models.CharField(
-        max_length=100, null=False, blank=False
+        max_length=100,
+        null=False,
+        blank=False,
     )
     type_of_contract = models.CharField(
         max_length=13,
@@ -39,9 +49,30 @@ class Contract(models.Model):
     end_of_contract = models.DateTimeField(null=False)
     rental_value = models.PositiveIntegerField(null=False)
     due_date = models.PositiveIntegerField(null=False)
-    client_id = models.UUIDField(null=True, blank=True, default=None)
-    owner_id = models.UUIDField(null=True, blank=True, default=None)
-    real_estate_id = models.UUIDField(null=True, blank=True, default=None)
+    client = models.OneToOneField(
+        Client,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="contract_client",
+    )
+    owner = models.OneToOneField(
+        Owner,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="contract_owner",
+    )
+    real_estate = models.OneToOneField(
+        RealEstate,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="contract_real_estate",
+    )
 
     def __repr__(self) -> str:
         return f"{self.contract_belongs_to} - {self.type_of_contract}"

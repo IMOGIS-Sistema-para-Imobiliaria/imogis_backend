@@ -5,6 +5,7 @@ from .models import Contract
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
+        depth = 1
         fields = [
             "id",
             "contract_belongs_to",
@@ -15,10 +16,22 @@ class ContractSerializer(serializers.ModelSerializer):
             "end_of_contract",
             "rental_value",
             "due_date",
-            "client_id",
-            "owner_id",
-            "real_estate_id",
+            "client",
+            "owner",
+            "real_estate",
         ]
         extra_kwargs = {
             "id": {"read_only": True},
+            "client": {
+                "required": False,
+                "allow_null": True,
+            },
+            "owner": {
+                "required": False,
+                "allow_null": True,
+            },
+            "real_estate": {
+                "required": False,
+                "allow_null": True,
+            },
         }

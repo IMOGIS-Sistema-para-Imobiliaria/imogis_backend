@@ -5,7 +5,9 @@ from bank_details.models import BankDetails
 class BankDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankDetails
+        depth = 1
         fields = [
+            "id",
             "bank",
             "account",
             "agency",
@@ -14,6 +16,12 @@ class BankDetailsSerializer(serializers.ModelSerializer):
             "client",
         ]
         extra_kwargs = {
-            "owner": {"required": False},
-            "client": {"required": False},
+            "owner": {
+                "required": False,
+                "allow_null": True,
+            },
+            "client": {
+                "required": False,
+                "allow_null": True,
+            },
         }

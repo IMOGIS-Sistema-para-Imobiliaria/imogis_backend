@@ -4,8 +4,10 @@ from rest_framework.validators import UniqueValidator
 
 
 class ClientSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Client
+        depth = 1
         fields = [
             "id",
             "fullname",
@@ -14,9 +16,7 @@ class ClientSerializer(serializers.ModelSerializer):
             "telephone",
             "address",
             "occupation",
-            "owner_name",
-            "real_estate_id",
-            "contract_id",
+            "owner",
         ]
         extra_kwargs = {
             "id": {"read_only": True},
@@ -36,6 +36,12 @@ class ClientSerializer(serializers.ModelSerializer):
                     )
                 ]
             },
-            "real_estate_id": {"required": False, "allow_null": True},
-            "contract_id": {"required": False, "allow_null": True},
+            "user": {
+                "required": False,
+                "allow_null": True,
+            },
+            "owner": {
+                "required": False,
+                "allow_null": True,
+            },
         }
