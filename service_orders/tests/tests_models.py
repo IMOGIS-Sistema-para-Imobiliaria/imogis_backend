@@ -87,6 +87,7 @@ class TestServiceOrderModel(TestCase):
     def test_owner_foreignkey_field(self):
         owner_field = ServiceOrder._meta.get_field("owner")
         self.assertEqual(owner_field.related_model, Owner)
+        self.assertTrue(owner_field.many_to_one)
         self.assertEqual(owner_field.null, True)
         self.assertEqual(owner_field.blank, True)
         self.assertEqual(owner_field.default, None)
@@ -97,6 +98,7 @@ class TestServiceOrderModel(TestCase):
     def test_real_estate_foreignkey_field(self):
         real_estate_field = ServiceOrder._meta.get_field("real_estate")
         self.assertEqual(real_estate_field.related_model, RealEstate)
+        self.assertTrue(real_estate_field.many_to_one)
         self.assertEqual(real_estate_field.null, True)
         self.assertEqual(real_estate_field.blank, True)
         self.assertEqual(real_estate_field.default, None)
