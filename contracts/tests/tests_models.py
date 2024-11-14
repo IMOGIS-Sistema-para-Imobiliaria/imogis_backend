@@ -111,7 +111,7 @@ class TestClientModel(TestCase):
         self.assertIsInstance(due_date_field, models.PositiveIntegerField)
         self.assertEqual(due_date_field.null, False)
 
-    def test_contract_to_client_foreignkey_field(self):
+    def test_contract_to_client_one_to_one_field(self):
         client_field = Contract._meta.get_field("client")
         self.assertEqual(client_field.related_model, Client)
         self.assertTrue(client_field.one_to_one)
@@ -122,7 +122,7 @@ class TestClientModel(TestCase):
         self.assertEqual(client_field.blank, True)
         self.assertEqual(client_field.default, None)
 
-    def test_contract_to_owner_foreignkey_field(self):
+    def test_contract_to_owner_one_to_one_field(self):
         owner_field = Contract._meta.get_field("owner")
         self.assertEqual(owner_field.related_model, Owner)
         self.assertTrue(owner_field.one_to_one)
@@ -133,7 +133,7 @@ class TestClientModel(TestCase):
         self.assertEqual(owner_field.blank, True)
         self.assertEqual(owner_field.default, None)
 
-    def test_contract_to_real_estate_foreignkey_field(self):
+    def test_contract_to_real_estate_one_to_one_field(self):
         real_estate_field = Contract._meta.get_field("real_estate")
         self.assertEqual(real_estate_field.related_model, RealEstate)
         self.assertTrue(real_estate_field.one_to_one)

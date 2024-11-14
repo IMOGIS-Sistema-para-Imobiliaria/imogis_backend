@@ -36,14 +36,13 @@ class TestBonusAndTransferModel(TestCase):
 
         self.assertEqual(len(expected_attr_names), len(attr_names))
 
-    def test_sales_bonus_attr(self):
+    def test_name_attr(self):
         sales_bonus_field = BonusAndTransfer._meta.get_field("sales_bonus")
         self.assertIsInstance(sales_bonus_field, models.DecimalField)
         self.assertEqual(sales_bonus_field.max_digits, 10)
         self.assertEqual(sales_bonus_field.decimal_places, 2)
         self.assertEqual(sales_bonus_field.null, False)
 
-    def test_profit_transfer_attr(self):
         profit_transfer_field = BonusAndTransfer._meta.get_field(
             "profit_transfer"
         )

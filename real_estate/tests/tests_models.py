@@ -55,7 +55,7 @@ class TestRealEstateModel(TestCase):
 
         self.assertEqual(len(expected_attr_names), len(attr_names))
 
-    def test_type_of_housing_attr(self):
+    def test_name_attr(self):
         type_of_housing_field = RealEstate._meta.get_field("type_of_housing")
         self.assertIsInstance(type_of_housing_field, models.CharField)
         self.assertEqual(type_of_housing_field.max_length, 7)
@@ -64,23 +64,42 @@ class TestRealEstateModel(TestCase):
         )
         self.assertEqual(type_of_housing_field.null, False)
 
-    def test_address_attr(self):
         address_field = RealEstate._meta.get_field("address")
         self.assertIsInstance(address_field, models.CharField)
         self.assertEqual(address_field.max_length, 255)
         self.assertEqual(address_field.null, False)
 
-    def test_rental_value_attr(self):
+        owner_name_field = RealEstate._meta.get_field("owner_name")
+        self.assertIsInstance(owner_name_field, models.CharField)
+        self.assertEqual(owner_name_field.max_length, 255)
+
+        client_name_field = RealEstate._meta.get_field("client_name")
+        self.assertIsInstance(client_name_field, models.CharField)
+        self.assertEqual(client_name_field.max_length, 255)
+
+        about_the_property_field = RealEstate._meta.get_field(
+            "about_the_property"
+        )
+        self.assertIsInstance(about_the_property_field, models.CharField)
+        self.assertEqual(about_the_property_field.max_length, 255)
+        self.assertEqual(about_the_property_field.null, False)
+
         rental_value_field = RealEstate._meta.get_field("rental_value")
         self.assertIsInstance(rental_value_field, models.PositiveIntegerField)
         self.assertEqual(rental_value_field.null, False)
 
-    def test_tenant_present_attr(self):
         tenant_present_field = RealEstate._meta.get_field("tenant_present")
         self.assertIsInstance(tenant_present_field, models.BooleanField)
         self.assertEqual(tenant_present_field.null, False)
 
-    def test_client_foreignkey_field(self):
+        readjustment_date_field = RealEstate._meta.get_field(
+            "readjustment_date"
+        )
+        self.assertIsInstance(readjustment_date_field, models.DateTimeField)
+        self.assertEqual(readjustment_date_field.null, True)
+        self.assertEqual(readjustment_date_field.blank, True)
+
+    def test_real_estate_to_client_one_to_one_field(self):
         client_field = RealEstate._meta.get_field("client")
         self.assertEqual(client_field.related_model, Client)
         self.assertTrue(client_field.one_to_one)
@@ -91,7 +110,7 @@ class TestRealEstateModel(TestCase):
             client_field.remote_field.related_name, "real_estate_client"
         )
 
-    def test_owner_foreignkey_field(self):
+    def test_real_estate_to_owner_foreignkey_field(self):
         owner_field = RealEstate._meta.get_field("owner")
         self.assertEqual(owner_field.related_model, Owner)
         self.assertTrue(owner_field.many_to_one)

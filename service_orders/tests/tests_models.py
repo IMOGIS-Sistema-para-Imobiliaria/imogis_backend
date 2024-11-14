@@ -52,7 +52,7 @@ class TestServiceOrderModel(TestCase):
 
         self.assertEqual(len(expected_attr_names), len(attr_names))
 
-    def test_service_category_attr(self):
+    def test_name_attr(self):
         service_category_field = ServiceOrder._meta.get_field(
             "service_category"
         )
@@ -66,7 +66,16 @@ class TestServiceOrderModel(TestCase):
         )
         self.assertEqual(service_category_field.null, False)
 
-    def test_payment_status_attr(self):
+        service_provided_field = ServiceOrder._meta.get_field(
+            "service_provided"
+        )
+        self.assertIsInstance(service_provided_field, models.TextField)
+
+        price_field = ServiceOrder._meta.get_field("price")
+        self.assertIsInstance(price_field, models.DecimalField)
+        self.assertEqual(price_field.max_digits, 10)
+        self.assertEqual(price_field.decimal_places, 2)
+
         payment_status_field = ServiceOrder._meta.get_field("payment_status")
         self.assertIsInstance(payment_status_field, models.CharField)
         self.assertEqual(payment_status_field.max_length, 8)
@@ -78,13 +87,16 @@ class TestServiceOrderModel(TestCase):
         )
         self.assertEqual(payment_status_field.null, False)
 
-    def test_price_attr(self):
-        price_field = ServiceOrder._meta.get_field("price")
-        self.assertIsInstance(price_field, models.DecimalField)
-        self.assertEqual(price_field.max_digits, 10)
-        self.assertEqual(price_field.decimal_places, 2)
+        date_paid_field = ServiceOrder._meta.get_field("date_paid")
+        self.assertIsInstance(date_paid_field, models.DateTimeField)
+        self.assertEqual(date_paid_field.null, True)
+        self.assertEqual(date_paid_field.blank, True)
 
-    def test_owner_foreignkey_field(self):
+        start_date_field = ServiceOrder._meta.get_field("start_date")
+        self.assertIsInstance(start_date_field, models.DateTimeField)
+        self.assertEqual(start_date_field.auto_now_add, True)
+
+    def test_service_orders_to_owner_foreignkey_field(self):
         owner_field = ServiceOrder._meta.get_field("owner")
         self.assertEqual(owner_field.related_model, Owner)
         self.assertTrue(owner_field.many_to_one)
@@ -95,7 +107,7 @@ class TestServiceOrderModel(TestCase):
             owner_field.remote_field.related_name, "service_order_owner"
         )
 
-    def test_real_estate_foreignkey_field(self):
+    def test_service_orders_to_real_estate_foreignkey_field(self):
         real_estate_field = ServiceOrder._meta.get_field("real_estate")
         self.assertEqual(real_estate_field.related_model, RealEstate)
         self.assertTrue(real_estate_field.many_to_one)

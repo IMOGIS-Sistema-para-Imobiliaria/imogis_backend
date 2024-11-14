@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.db import models
+from django.db import IntegrityError, models
 from clients.models import Client
 from owners.models import Owner
 from bank_details.models import ENUM_ACCOUNT_TYPE, ENUM_BANKS, BankDetails
@@ -105,6 +105,21 @@ class TestBankDetails(TestCase):
         self.assertEqual(type(bank_details.account), str)
         self.assertEqual(type(bank_details.agency), str)
         self.assertEqual(type(bank_details.account_type), str)
+
+    def test_unique_account(self):
+        BankDetails.objects.create(
+            bank="Banco do Brasil",
+            account="1234567891",
+            agency="123456",
+            account_type="Conta Corrente",
+        )
+        with self.assertRaises(IntegrityError):
+            BankDetails.objects.create(
+                bank="Banco do Brasil",
+                account="1234567891",
+                agency="123456",
+                account_type="Conta Corrente",
+            )
 
     def test_bank_details_serializer(self):
         bank_details = self.bank_details_create
